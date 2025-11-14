@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface JobCardProps {
   job: {
@@ -27,6 +28,26 @@ export default function JobCard({ job }: JobCardProps) {
     FLEXIBLE: "Linh hoạt",
   };
 
+  // Get job image based on job type or use default
+  const getJobImage = () => {
+    if (job.employer?.logoUrl) {
+      return job.employer.logoUrl;
+    }
+    // Use Unsplash images based on job title keywords
+    const title = job.title.toLowerCase();
+    if (title.includes("phục vụ") || title.includes("nhà hàng") || title.includes("cafe")) {
+      return "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=300&fit=crop";
+    } else if (title.includes("bán hàng") || title.includes("shop") || title.includes("cửa hàng")) {
+      return "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=300&fit=crop";
+    } else if (title.includes("gia sư") || title.includes("dạy")) {
+      return "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop";
+    } else if (title.includes("sự kiện") || title.includes("event")) {
+      return "https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=300&fit=crop";
+    } else {
+      return "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&h=300&fit=crop";
+    }
+  };
+
   return (
     <Link
       href={`/jobs/${job.id}`}
@@ -47,16 +68,19 @@ export default function JobCard({ job }: JobCardProps) {
             />
           </div>
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <img
-              src="/images/job-placeholder.svg"
-              alt="Job placeholder"
-              className="w-full h-full object-cover opacity-50"
+          <div className="absolute inset-0">
+            <Image
+              src={getJobImage()}
+              alt={job.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           </div>
         )}
         {job.isPremium && (
-          <span className="absolute top-3 right-3 px-3 py-1 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-xs font-bold rounded-full shadow-md flex items-center gap-1">
+          <span className="absolute top-3 right-3 px-3 py-1 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-xs font-bold rounded-full shadow-md flex items-center gap-1 z-10">
             ⭐ PREMIUM
           </span>
         )}

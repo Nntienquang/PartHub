@@ -1,6 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import ApplyButton from "@/components/jobs/ApplyButton";
 import PageHeader from "@/components/layout/PageHeader";
@@ -86,26 +87,30 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
         <div className="lg:col-span-2">
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             {/* Job Header Image */}
-            <div className="relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100">
+            <div className="relative h-48 overflow-hidden">
               {job.employer?.logoUrl ? (
-                <div className="absolute inset-0 flex items-center justify-center bg-white/80">
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
                   <img
                     src={job.employer.logoUrl}
                     alt={job.employer.companyName || "Company logo"}
-                    className="max-w-xs max-h-32 object-contain p-4"
+                    className="max-w-xs max-h-32 object-contain p-4 z-10"
                   />
                 </div>
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <img
-                    src="/images/job-placeholder.svg"
-                    alt="Job placeholder"
-                    className="w-full h-full object-cover opacity-30"
+                <>
+                  <Image
+                    src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&h=400&fit=crop"
+                    alt={job.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1200px) 100vw, 66vw"
+                    priority
                   />
-                </div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/40 to-indigo-600/40" />
+                </>
               )}
               {job.isPremium && (
-                <span className="absolute top-4 right-4 px-4 py-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-sm font-bold rounded-full shadow-lg flex items-center gap-1">
+                <span className="absolute top-4 right-4 px-4 py-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-sm font-bold rounded-full shadow-lg flex items-center gap-1 z-10">
                   ⭐ PREMIUM
                 </span>
               )}

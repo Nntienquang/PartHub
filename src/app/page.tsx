@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Button from "@/components/ui/Button";
 import JobSearchForm from "@/components/jobs/JobSearchForm";
 import JobCard from "@/components/jobs/JobCard";
@@ -88,14 +89,18 @@ export default async function HomePage() {
     <div>
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-brand-primary to-blue-600 text-white py-16 md:py-24 overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <img
-            src="/images/hero-bg.svg"
-            alt="Background pattern"
-            className="w-full h-full object-cover"
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1920&h=600&fit=crop"
+            alt="Background"
+            fill
+            className="object-cover opacity-20"
+            priority
+            sizes="100vw"
           />
         </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/90 to-blue-800/90" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -191,19 +196,29 @@ export default async function HomePage() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {blogPosts.map((post) => (
+            {blogPosts.map((post, index) => {
+              // Different images for different blog posts
+              const blogImages = [
+                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop", // Night work
+                "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=250&fit=crop", // Interview
+                "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=250&fit=crop", // Business
+              ];
+              return (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
                 className="bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
               >
                 {/* Blog Thumbnail */}
-                <div className="relative h-48 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
-                  <img
-                    src="/images/blog-placeholder.svg"
+                <div className="relative h-48 overflow-hidden">
+                  <Image
+                    src={blogImages[index] || blogImages[0]}
                     alt={post.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                 </div>
                 
                 <div className="p-6">
@@ -216,7 +231,8 @@ export default async function HomePage() {
                   </span>
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

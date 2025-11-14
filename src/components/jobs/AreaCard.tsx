@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface AreaCardProps {
   area: {
@@ -14,18 +15,33 @@ interface AreaCardProps {
 export default function AreaCard({ area }: AreaCardProps) {
   const jobCount = area._count?.jobs || 0;
 
+  // Get area image based on area name
+  const getAreaImage = () => {
+    const name = area.name.toLowerCase();
+    if (name.includes("vinh")) {
+      return "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=400&h=300&fit=crop";
+    } else if (name.includes("cửa lò") || name.includes("biển")) {
+      return "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop";
+    } else {
+      return "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop";
+    }
+  };
+
   return (
     <Link
       href={`/jobs?areaId=${area.id}`}
       className="block bg-white border border-slate-200 rounded-lg overflow-hidden hover:border-brand-primary hover:shadow-md transition-all"
     >
       {/* Area Image */}
-      <div className="relative h-32 bg-gradient-to-br from-sky-50 to-blue-100">
-        <img
-          src="/images/area-placeholder.svg"
+      <div className="relative h-32 overflow-hidden">
+        <Image
+          src={getAreaImage()}
           alt={area.name}
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
       </div>
       
       <div className="p-6 text-center">
