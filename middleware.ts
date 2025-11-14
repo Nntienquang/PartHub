@@ -7,6 +7,11 @@ export default withAuth(
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
 
+    // Skip middleware for all API routes
+    if (path.startsWith("/api")) {
+      return NextResponse.next();
+    }
+
     // If no token, redirect to login
     if (!token) {
       return NextResponse.redirect(new URL("/auth/login", req.url));
@@ -35,6 +40,11 @@ export default withAuth(
       authorized: ({ token, req }) => {
         const path = req.nextUrl.pathname;
 
+        // Skip auth check for all API routes
+        if (path.startsWith("/api")) {
+          return true;
+        }
+
         // Public routes that don't need authentication
         if (
           path.startsWith("/auth") ||
@@ -42,11 +52,6 @@ export default withAuth(
           path.startsWith("/jobs") ||
           path.startsWith("/companies") ||
           path.startsWith("/blog") ||
-          path.startsWith("/api/uploadthing") ||
-          path.startsWith("/api/register") ||
-          path.startsWith("/api/auth") ||
-          path.startsWith("/api/jobs") ||
-          path.startsWith("/api/areas") ||
           path === "/about" ||
           path === "/contact" ||
           path === "/terms" ||
@@ -56,7 +61,7 @@ export default withAuth(
         }
 
         // Protected routes need token
-        if (path.startsWith("/admin") || path.startsWith("/employer")) {
+        if (path.startsWith("/admin") || path.startsWith("/employer") || path.startsWith("/profile") || path.startsWith("/applications")) {
           return !!token;
         }
 
@@ -74,5 +79,3 @@ export const config = {
     "/applications/:path*",
   ],
 };
-
-
