@@ -3,6 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { requireEmployer, requireAdmin, getCurrentUser } from "@/lib/auth-guard";
 import { JobType, Shift, PremiumType, Role } from "@prisma/client";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
 // GET: Get job details
 export async function GET(
   request: NextRequest,

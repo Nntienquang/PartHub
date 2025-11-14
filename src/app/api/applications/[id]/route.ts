@@ -3,6 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { requireEmployer, requireAdmin, getCurrentUser } from "@/lib/auth-guard";
 import { ApplicationStatus, Role } from "@prisma/client";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
 // PUT: Update application status (EMPLOYER approves/rejects, ADMIN can do anything)
 export async function PUT(
   request: NextRequest,

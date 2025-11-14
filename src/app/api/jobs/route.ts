@@ -3,6 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { requireEmployer, getCurrentUser } from "@/lib/auth-guard";
 import { JobType, Shift, PremiumType, Role } from "@prisma/client";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
 // Helper function to extract salary number from string
 function extractSalaryNumber(salary: string): number | null {
   const match = salary.match(/(\d+)/);

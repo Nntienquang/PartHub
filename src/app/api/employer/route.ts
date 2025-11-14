@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireEmployer } from "@/lib/auth-guard";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
 // GET: Get current employer profile
 export async function GET(request: NextRequest) {
   try {
