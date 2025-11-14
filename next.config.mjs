@@ -8,6 +8,22 @@ const nextConfig = {
     // Tạm thời ignore ESLint errors
     ignoreDuringBuilds: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.uploadthing.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.pexels.com',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

@@ -87,8 +87,17 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-brand-primary to-blue-600 text-white py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-gradient-to-r from-brand-primary to-blue-600 text-white py-16 md:py-24 overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <img
+            src="/images/hero-bg.svg"
+            alt="Background pattern"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
               Việc làm Part-time tại Nghệ An
@@ -186,15 +195,26 @@ export default async function HomePage() {
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="bg-white border border-slate-200 rounded-lg p-6 hover:shadow-lg transition-shadow"
+                className="bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <h3 className="text-xl font-semibold text-slate-900 mb-2">
-                  {post.title}
-                </h3>
-                <p className="text-slate-600 text-sm">{post.excerpt}</p>
-                <span className="text-brand-primary text-sm font-medium mt-4 inline-block">
-                  Đọc thêm →
-                </span>
+                {/* Blog Thumbnail */}
+                <div className="relative h-48 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
+                  <img
+                    src="/images/blog-placeholder.svg"
+                    alt={post.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-slate-900 mb-2 line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-slate-600 text-sm mb-4 line-clamp-2">{post.excerpt}</p>
+                  <span className="text-brand-primary text-sm font-medium inline-block">
+                    Đọc thêm →
+                  </span>
+                </div>
               </Link>
             ))}
           </div>

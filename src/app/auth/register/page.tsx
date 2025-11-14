@@ -59,6 +59,15 @@ export default function RegisterPage() {
         body: JSON.stringify(body),
       });
 
+      // Check if response is JSON
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        setError(text || "Đã xảy ra lỗi khi đăng ký");
+        setLoading(false);
+        return;
+      }
+
       const data = await response.json();
 
       if (!response.ok) {

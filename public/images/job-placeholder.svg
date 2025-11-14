@@ -1,0 +1,11 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#f1f5f9"/>
+  <g transform="translate(200,150)">
+    <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#3b82f6" opacity="0.2"/>
+    <circle cx="0" cy="-20" r="15" fill="#3b82f6"/>
+    <rect x="-40" y="0" width="80" height="8" rx="4" fill="#3b82f6" opacity="0.5"/>
+    <rect x="-30" y="15" width="60" height="8" rx="4" fill="#3b82f6" opacity="0.3"/>
+  </g>
+  <text x="200" y="250" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="14">Job Image</text>
+</svg>
+

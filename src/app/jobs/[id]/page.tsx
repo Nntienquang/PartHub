@@ -84,29 +84,52 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Content */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
-            {/* Header */}
-            <div className="mb-6">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
-                  <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
-                    {job.title}
-                  </h1>
-                  {job.employer?.companyName && (
-                    <Link
-                      href={`/companies/${job.employer.id}`}
-                      className="text-brand-primary hover:underline text-lg"
-                    >
-                      {job.employer.companyName}
-                    </Link>
-                  )}
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            {/* Job Header Image */}
+            <div className="relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100">
+              {job.employer?.logoUrl ? (
+                <div className="absolute inset-0 flex items-center justify-center bg-white/80">
+                  <img
+                    src={job.employer.logoUrl}
+                    alt={job.employer.companyName || "Company logo"}
+                    className="max-w-xs max-h-32 object-contain p-4"
+                  />
                 </div>
-                {job.isPremium && (
-                  <span className="ml-4 px-3 py-1 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-sm font-bold rounded shadow-md">
-                    ⭐ PREMIUM
-                  </span>
-                )}
-              </div>
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img
+                    src="/images/job-placeholder.svg"
+                    alt="Job placeholder"
+                    className="w-full h-full object-cover opacity-30"
+                  />
+                </div>
+              )}
+              {job.isPremium && (
+                <span className="absolute top-4 right-4 px-4 py-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-sm font-bold rounded-full shadow-lg flex items-center gap-1">
+                  ⭐ PREMIUM
+                </span>
+              )}
+            </div>
+
+            <div className="p-6 md:p-8">
+              {/* Header */}
+              <div className="mb-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1">
+                    <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
+                      {job.title}
+                    </h1>
+                    {job.employer?.companyName && (
+                      <Link
+                        href={`/companies/${job.employer.id}`}
+                        className="text-brand-primary hover:underline text-lg flex items-center gap-2"
+                      >
+                        <span className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-sm">🏢</span>
+                        {job.employer.companyName}
+                      </Link>
+                    )}
+                  </div>
+                </div>
 
               {/* Job Info */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -156,6 +179,7 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
             {/* Posted Date */}
             <div className="text-slate-500 text-sm">
               Đăng ngày: {formatDate(job.createdAt)}
+            </div>
             </div>
           </div>
         </div>

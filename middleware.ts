@@ -43,6 +43,10 @@ export default withAuth(
           path.startsWith("/companies") ||
           path.startsWith("/blog") ||
           path.startsWith("/api/uploadthing") ||
+          path.startsWith("/api/register") ||
+          path.startsWith("/api/auth") ||
+          path.startsWith("/api/jobs") ||
+          path.startsWith("/api/areas") ||
           path === "/about" ||
           path === "/contact" ||
           path === "/terms" ||
@@ -66,6 +70,8 @@ export const config = {
   matcher: [
     "/admin/:path*",
     "/employer/:path*",
+    "/profile/:path*",
+    "/applications/:path*",
   ],
 };
 
