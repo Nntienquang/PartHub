@@ -29,7 +29,7 @@ export default function JobCard({ job }: JobCardProps) {
   };
 
   // Get job image based on job type or use default
-  const getJobImage = () => {
+  const getJobImage = (): string => {
     if (job.employer?.logoUrl) {
       return job.employer.logoUrl;
     }
@@ -48,6 +48,9 @@ export default function JobCard({ job }: JobCardProps) {
     }
   };
 
+  const jobImage = getJobImage();
+  const hasLogo = !!job.employer?.logoUrl;
+
   return (
     <Link
       href={`/jobs/${job.id}`}
@@ -59,10 +62,10 @@ export default function JobCard({ job }: JobCardProps) {
     >
       {/* Job Image/Logo */}
       <div className="relative h-40 bg-gradient-to-br from-blue-50 to-indigo-100 overflow-hidden">
-        {job.employer?.logoUrl ? (
+        {hasLogo && job.employer ? (
           <div className="absolute inset-0 flex items-center justify-center bg-white">
             <img
-              src={job.employer.logoUrl}
+              src={job.employer.logoUrl || ""}
               alt={job.employer.companyName || "Company logo"}
               className="max-w-full max-h-full object-contain p-4"
             />
@@ -70,7 +73,7 @@ export default function JobCard({ job }: JobCardProps) {
         ) : (
           <div className="absolute inset-0">
             <Image
-              src={getJobImage()}
+              src={jobImage}
               alt={job.title}
               fill
               className="object-cover"
@@ -93,30 +96,29 @@ export default function JobCard({ job }: JobCardProps) {
           </h3>
           {job.employer?.companyName && (
             <p className="text-slate-600 text-sm flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-xs">🏢</span>
+              <span className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-xs">
+                🏢
+              </span>
               {job.employer.companyName}
             </p>
           )}
         </div>
-      
-      <div className="flex flex-wrap gap-3 mb-3 text-sm text-slate-600">
-        <span className="flex items-center">
-          💰 {job.salary}
-        </span>
-        {job.area?.name && (
-          <span className="flex items-center">
-            📍 {job.area.name}
-          </span>
-        )}
-        {job.shift && (
-          <span className="flex items-center">
-            ⏰ {shiftLabels[job.shift] || job.shift}
-          </span>
-        )}
-      </div>
-      
-      <div className="text-brand-primary font-medium text-sm mt-4">
-        Xem chi tiết →
+
+        <div className="flex flex-wrap gap-3 mb-3 text-sm text-slate-600">
+          <span className="flex items-center">💰 {job.salary}</span>
+          {job.area?.name && (
+            <span className="flex items-center">📍 {job.area.name}</span>
+          )}
+          {job.shift && (
+            <span className="flex items-center">
+              ⏰ {shiftLabels[job.shift] || job.shift}
+            </span>
+          )}
+        </div>
+
+        <div className="text-brand-primary font-medium text-sm mt-4">
+          Xem chi tiết →
+        </div>
       </div>
     </Link>
   );
