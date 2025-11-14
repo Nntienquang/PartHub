@@ -28,7 +28,7 @@ export default function CVUploader({ value, onChange, userId }: CVUploaderProps)
       <div className="space-y-3">
         {/* Upload Button */}
         <div>
-          <UploadButton<OurFileRouter>
+          <UploadButton<OurFileRouter, "cvUploader">
             endpoint="cvUploader"
             onUploadBegin={() => setUploading(true)}
             onClientUploadComplete={(res) => {
@@ -46,7 +46,7 @@ export default function CVUploader({ value, onChange, userId }: CVUploaderProps)
             }}
             content={{
               button: ({ ready }) => (ready ? "📄 Tải lên CV" : "Đang chuẩn bị..."),
-              allowedContent: "File PDF (tối đa 10MB)",
+              allowedContent: "File PDF (tối đa 8MB)",
             }}
             appearance={{
               button: "ut-ready:bg-brand-primary ut-uploading:cursor-not-allowed rounded-lg px-4 py-2 text-white bg-slate-600 hover:bg-slate-700 transition-colors",

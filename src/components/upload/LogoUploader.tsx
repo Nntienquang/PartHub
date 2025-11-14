@@ -53,7 +53,7 @@ export default function LogoUploader({ value, onChange, employerId }: LogoUpload
 
         {/* Upload Button */}
         <div className="flex-1">
-          <UploadButton<OurFileRouter>
+          <UploadButton<OurFileRouter, "logoUploader">
             endpoint="logoUploader"
             onUploadBegin={() => setUploading(true)}
             onClientUploadComplete={(res) => {

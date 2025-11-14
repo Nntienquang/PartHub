@@ -1,8 +1,6 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 
-const f = createUploadthing({
-  token: process.env.UPLOADTHING_SECRET || process.env.UPLOADTHING_TOKEN,
-});
+const f = createUploadthing();
 
 export const ourFileRouter = {
   avatarUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
@@ -19,7 +17,7 @@ export const ourFileRouter = {
       return { url: file.url };
     }),
 
-  cvUploader: f({ pdf: { maxFileSize: "10MB", maxFileCount: 1 } })
+  cvUploader: f({ pdf: { maxFileSize: "8MB", maxFileCount: 1 } })
     .onUploadComplete(async ({ file }) => {
       console.log("CV upload complete");
       console.log("File URL:", file.url);

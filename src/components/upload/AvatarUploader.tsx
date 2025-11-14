@@ -53,7 +53,7 @@ export default function AvatarUploader({ value, onChange, userId }: AvatarUpload
 
         {/* Upload Button */}
         <div className="flex-1">
-          <UploadButton<OurFileRouter>
+          <UploadButton<OurFileRouter, "avatarUploader">
             endpoint="avatarUploader"
             onUploadBegin={() => setUploading(true)}
             onClientUploadComplete={(res) => {

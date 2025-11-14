@@ -1,7 +1,7 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth-options";
 import { Role } from "@prisma/client";
 import ProfileForm from "@/components/profile/ProfileForm";
 import PageHeader from "@/components/layout/PageHeader";
