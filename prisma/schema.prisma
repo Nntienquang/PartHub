@@ -1,0 +1,184 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum Role {
+  USER
+  EMPLOYER
+  ADMIN
+}
+
+enum JobType {
+  PART_TIME
+  FULL_TIME
+  INTERN
+  REMOTE
+}
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum PremiumType {
+  NONE
+  BASIC
+  PRO
+}
+
+enum Shift {
+  MORNING
+  AFTERNOON
+  EVENING
+  FLEXIBLE
+}
+
+// ============================================
+// MODELS
+// ============================================
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  phone     String?
+  avatar    String?
+  cvUrl     String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  applications Application[]
+  savedJobs    SavedJob[]
+  reports      Report[]
+}
+
+model Employer {
+  id          String   @id @default(cuid())
+  companyName String
+  email       String   @unique
+  password    String
+  phone       String?
+  address     String?
+  logoUrl     String?
+  description String?
+  role        Role     @default(EMPLOYER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  jobs     Job[]
+  revenues Revenue[]
+}
+
+model Job {
+  id          String      @id @default(cuid())
+  title       String
+  description String      @db.Text
+  salary      String
+  jobType     JobType     @default(PART_TIME)
+  location    String
+  areaId      String?
+  shift       Shift?      @default(FLEXIBLE)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  isActive    Boolean     @default(true)
+  isPremium   Boolean     @default(false)
+  premiumType PremiumType @default(NONE)
+
+  // Relations
+  employerId  String
+  employer   Employer @relation(fields: [employerId], references: [id], onDelete: Cascade)
+
+  area       Area? @relation(fields: [areaId], references: [id], onDelete: SetNull)
+
+  applications Application[]
+  savedBy      SavedJob[]
+  reports      Report[]
+}
+
+model Application {
+  id        String            @id @default(cuid())
+  createdAt DateTime          @default(now())
+  status    ApplicationStatus @default(PENDING)
+
+  // Relations
+  userId String
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  jobId String
+  job   Job  @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([jobId])
+  @@unique([userId, jobId])
+}
+
+model SavedJob {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Relations
+  userId String
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  jobId String
+  job   Job  @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([jobId])
+  @@unique([userId, jobId])
+}
+
+model Revenue {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  amount      Int
+  description String?  @db.Text
+  employerId  String
+
+  // Relations
+  employer Employer @relation(fields: [employerId], references: [id], onDelete: Cascade)
+
+  @@index([employerId])
+}
+
+model Area {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  // Relations
+  jobs Job[]
+}
+
+model Report {
+  id        String   @id @default(cuid())
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+
+  // Relations
+  userId String?
+  user   User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  jobId String?
+  job   Job? @relation(fields: [jobId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([jobId])
+}
